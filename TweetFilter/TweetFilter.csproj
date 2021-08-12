@@ -43,7 +43,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Business\ITweetFilterManager.cs" />
     <Compile Include="Business\ITweetManager.cs" />
+    <Compile Include="Business\TweetFilterManager.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Model\Tweet.cs" />

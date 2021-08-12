@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31515.178
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TweetFilter", "TweetFilter.csproj", "{8AB0F452-7CEF-4C79-B276-062A5C0C1315}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TweetFilter", "TweetFilter\TweetFilter.csproj", "{8AB0F452-7CEF-4C79-B276-062A5C0C1315}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserInterface", "..\UserInterface\UserInterface.csproj", "{A016E85D-5B47-45EA-AA02-8F1957B5CB53}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserInterface", "UserInterface\UserInterface.csproj", "{A016E85D-5B47-45EA-AA02-8F1957B5CB53}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
