@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 using TweetFilter.Models;
 
 namespace TweetFilter.Business {
-  class TweetFilterManager : ITweetFilterManager {
+  public class TweetFilterManager : ITweetFilterManager {
     ITweetManager _tweetManager;
-    internal TweetFilterManager(ITweetManager twtManager) {
+    public TweetFilterManager(ITweetManager twtManager) {
       _tweetManager = twtManager;
     }
 

@@ -42,6 +42,7 @@ namespace UserInterface {
     private void Button_Start(object sender, RoutedEventArgs e) {
       _minimumFollower = int.TryParse(
         minimumFollower.Text, out _minimumFollower) ? _minimumFollower : 0;
+      _btnManager.FilterTweetByFollower(_fullFilePath, _minimumFollower);
     }
   }
 }

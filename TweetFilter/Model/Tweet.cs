@@ -1,7 +1,7 @@
 ﻿using System;
 
 namespace TweetFilter.Models {
-  class Tweet {
+  public class Tweet {
     private string _id;
     private string _lang;
     private string _date;

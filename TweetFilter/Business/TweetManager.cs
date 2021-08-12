@@ -11,15 +11,14 @@ using System.Threading.Tasks;
 using TweetFilter.Models;
 
 namespace TweetFilter.Business {
-  class TweetManager : IDisposable, ITweetManager {
+  public class TweetManager : IDisposable, ITweetManager {
     private List<Tweet> _tweets;
     private StreamReader _csvStreamer;
     protected CsvReader _csvReader;
     private int _numberOfColumn = 0;
     private bool _isDisposable;
 
-    internal TweetManager() {
-    }
+    public TweetManager() { }
 
     public List<Tweet> GetTweets() {
       return _tweets;

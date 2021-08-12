@@ -2,7 +2,7 @@
 using TweetFilter.Models;
 
 namespace TweetFilter.Business {
-  interface ITweetFilterManager {
+  public interface ITweetFilterManager {
     List<Tweet> FilterByMinimumFollower(int minimumFollower);
   }
 }

@@ -2,7 +2,7 @@
 using TweetFilter.Models;
 
 namespace TweetFilter.Business {
-  interface ITweetManager {
+  public interface ITweetManager {
     List<Tweet> GetTweets();
     void LoadTweetFromCSV(string filePath);
     void Dispose();
