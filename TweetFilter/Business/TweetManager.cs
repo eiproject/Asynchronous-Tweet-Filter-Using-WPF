@@ -19,7 +19,6 @@ namespace TweetFilter.Business {
     private bool _isDisposable;
 
     internal TweetManager() {
-      _tweets = new List<Tweet>();
     }
 
     public List<Tweet> GetTweets() {
@@ -42,15 +41,20 @@ namespace TweetFilter.Business {
     }
 
     public void LoadTweetFromCSV(string filePath) {
-      _csvStreamer = File.OpenText(filePath);
-      _csvReader = new CsvReader(
-        _csvStreamer, new CultureInfo("en-US", false));
-      while (_csvReader.Read()) {
-        dynamic obj = _csvReader.GetRecord<object>();
-        string[] queryArray = DynamicObjectToArray(obj);
-        AddTweetToTweets(queryArray);
+      try {
+        _csvStreamer = File.OpenText(filePath);
+        _csvReader = new CsvReader(_csvStreamer, new CultureInfo("en-US", false));
+        _tweets = new List<Tweet>();
+        while (_csvReader.Read()) {
+          dynamic obj = _csvReader.GetRecord<object>();
+          string[] queryArray = DynamicObjectToArray(obj);
+          AddTweetToTweets(queryArray);
+        }
+        _isDisposable = true;
       }
-      _isDisposable = true;
+      catch (ArgumentException argumentError){
+        Console.WriteLine(argumentError.Message);
+      }
     }
 
     private string[] DynamicObjectToArray(dynamic obj) {
