@@ -18,8 +18,11 @@ namespace TweetFilter.Business {
         List<Tweet> tweetData = _tweetManager.GetTweets()
           ?? throw new NullReferenceException("Tweets not yet loaded");
 
-        filteredTweet = tweetData.Where(
-         n => ParseIntegerToString(n.Followers) > minimumFollower).ToList();
+        /*filteredTweet = tweetData.Where(
+         n => ParseIntegerToString(n.Followers) > minimumFollower).ToList();*/
+
+        IEnumerable<Tweet> filtered = from n in tweetData.AsParallel() where ParseIntegerToString(n.Followers) > minimumFollower select n;
+        filteredTweet = filtered.ToList();
       }
       catch (NullReferenceException nullReference) {
         Console.WriteLine(nullReference.Message);

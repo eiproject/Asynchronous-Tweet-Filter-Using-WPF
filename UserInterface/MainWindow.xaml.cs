@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -42,6 +43,11 @@ namespace UserInterface {
     private void Button_Start(object sender, RoutedEventArgs e) {
       _minimumFollower = int.TryParse(
         minimumFollower.Text, out _minimumFollower) ? _minimumFollower : 0;
+      Thread startClicked = new Thread(FilterByFollower);
+      startClicked.Start();
+    }
+
+    private void FilterByFollower() {
       _btnManager.FilterTweetByFollower(_fullFilePath, _minimumFollower);
     }
   }
