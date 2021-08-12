@@ -1,7 +1,9 @@
-﻿using System;
+﻿using CsvHelper;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -11,6 +13,8 @@ using TweetFilter.Models;
 namespace TweetFilter.Business {
   class TweetManager : IDisposable, ITweetManager {
     private ArrayList _tweets;
+    private StreamReader _csvStreamer;
+    protected CsvReader _csvReader;
     private int _numberOfColumn = 0;
     private bool _isDisposable;
 
@@ -38,44 +42,29 @@ namespace TweetFilter.Business {
     }
 
     public void LoadTweetFromCSV(string filePath) {
-      IEnumerable<string> stream = File.ReadLines(filePath);
-      GetValidNumberOfColumn(stream.Take(1));
-      foreach (string row in stream.Skip(1)) {
-        try {
-          TryToCreateTweet(row);
-        }
-        catch (ArgumentException invalidQuery){
-          Console.WriteLine(invalidQuery.Message);
-        }
+      _csvStreamer = File.OpenText(filePath);
+      _csvReader = new CsvReader(
+        _csvStreamer, new CultureInfo("en-US", false));
+      while (_csvReader.Read()) {
+        dynamic obj = _csvReader.GetRecord<object>();
+        string[] queryArray = DynamicObjectToArray(obj);
+        AddTweetToTweets(queryArray);
       }
       _isDisposable = true;
     }
 
-    private void TryToCreateTweet(string row) {
-      string[] query = ParseStringToArray(row);
-      Tweet newTweet = CreateTweetObject(query);
-      _tweets.Add(newTweet);
-    }
-
-    private void GetValidNumberOfColumn(IEnumerable<string> header) {
-      foreach (string h in header) {
-        _numberOfColumn = ParseStringToArray(h).Length;
-        Console.WriteLine("header: " + h);
-      }
-    }
-
-    private string[] ParseStringToArray(string text) {
-      text.Replace(",,", ", ,");
-      string[] queryArray = text.Split(',');
+    private string[] DynamicObjectToArray(dynamic obj) {
+      string[] queryArray = new string[] {
+        obj.ID, obj.lang, obj.Date, obj.Source, obj.len, obj.Tweet, 
+        obj.Likes, obj.RTs, obj.Hashtags, obj.UserMentionNames, 
+        obj.UserMentionID, obj.Name, obj.Place, obj.Followers, obj.Friends
+      };
       return queryArray;
     }
 
-    private Tweet CreateTweetObject(string[] query) {
-      if (query.Length != _numberOfColumn) {
-        throw new ArgumentException("Invalid query, Query have difference number of column");
-      }
-      return new Tweet(query);
+    private void AddTweetToTweets(string[] queryArray) {
+      Tweet tweet = new Tweet(queryArray);
+      _tweets.Add(tweet);
     }
-
   }
 }
