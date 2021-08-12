@@ -21,7 +21,12 @@ namespace TweetFilter.Business {
         /*filteredTweet = tweetData.Where(
          n => ParseIntegerToString(n.Followers) > minimumFollower).ToList();*/
 
-        IEnumerable<Tweet> filtered = from n in tweetData.AsParallel() where ParseIntegerToString(n.Followers) > minimumFollower select n;
+        IEnumerable<Tweet> filtered =
+          from n in tweetData.AsParallel()
+          where ProgressBarUpdate()
+          where ParseIntegerToString(n.Followers) > minimumFollower
+          select n;
+
         filteredTweet = filtered.ToList();
       }
       catch (NullReferenceException nullReference) {
@@ -33,6 +38,10 @@ namespace TweetFilter.Business {
     int ParseIntegerToString(string strNumber) {
       int.TryParse(strNumber, out int result);
       return result;
+    }
+    private bool ProgressBarUpdate() {
+
+      return true;
     }
   }
 }

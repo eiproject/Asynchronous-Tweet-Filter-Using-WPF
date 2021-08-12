@@ -13,13 +13,15 @@ namespace UserInterface.Business {
     internal ButtonManager() {
     }
 
-    public void FilterTweetByFollower(string filePath, int minFollower) {
+    public List<Tweet> FilterTweetByFollower(string filePath, int minFollower) {
       _twtManager = new TweetManager();
       _filterManager = new TweetFilterManager(_twtManager);
       _twtManager.LoadTweetFromCSV(filePath);
       List<Tweet> result = _filterManager.FilterByMinimumFollower(minFollower);
       Console.WriteLine($"Result:  { result.Count} tweets.");
       _twtManager.Dispose();
+
+      return result;
     }
   }
 }
