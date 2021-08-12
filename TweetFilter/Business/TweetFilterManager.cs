@@ -6,5 +6,8 @@ using System.Threading.Tasks;
 
 namespace TweetFilter.Business {
   class TweetFilterManager {
+    internal TweetFilterManager() {
+
+    }
   }
 }
