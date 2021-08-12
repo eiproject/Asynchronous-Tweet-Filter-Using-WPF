@@ -12,17 +12,17 @@ using TweetFilter.Models;
 
 namespace TweetFilter.Business {
   class TweetManager : IDisposable, ITweetManager {
-    private ArrayList _tweets;
+    private List<Tweet> _tweets;
     private StreamReader _csvStreamer;
     protected CsvReader _csvReader;
     private int _numberOfColumn = 0;
     private bool _isDisposable;
 
     internal TweetManager() {
-      _tweets = new ArrayList();
+      _tweets = new List<Tweet>();
     }
 
-    public ArrayList GetTweets() {
+    public List<Tweet> GetTweets() {
       return _tweets;
     }
 

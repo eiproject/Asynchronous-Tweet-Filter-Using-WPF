@@ -9,5 +9,7 @@ namespace TweetFilter.Business {
     internal TweetFilterManager() {
 
     }
+
+    
   }
 }

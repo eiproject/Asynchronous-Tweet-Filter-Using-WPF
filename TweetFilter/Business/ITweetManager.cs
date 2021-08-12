@@ -1,8 +1,9 @@
-﻿using System.Collections;
+﻿using System.Collections.Generic;
+using TweetFilter.Models;
 
 namespace TweetFilter.Business {
   interface ITweetManager {
-    ArrayList GetTweets();
+    List<Tweet> GetTweets();
     void LoadTweetFromCSV(string filePath);
     void Dispose();
   }
