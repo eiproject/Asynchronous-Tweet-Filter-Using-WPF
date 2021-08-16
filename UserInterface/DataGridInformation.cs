@@ -9,7 +9,7 @@ namespace UserInterface {
   public class DataGridInformation : INotifyPropertyChanged {
     private string _fileName;
     private int _progress;
-    private string _result;
+    private string _logs;
     private bool _isEnded;
 
     public string FileName {
@@ -28,11 +28,11 @@ namespace UserInterface {
       }
     }
 
-    public string Result {
-      get { return _result; }
+    public string Logs {
+      get { return _logs; }
       set {
-        _result = value;
-        OnPropertyChanged("Result");
+        _logs = value;
+        OnPropertyChanged("Logs");
       }
     }
 

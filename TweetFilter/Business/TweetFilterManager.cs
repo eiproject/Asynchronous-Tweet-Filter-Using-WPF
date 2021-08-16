@@ -58,7 +58,7 @@ namespace TweetFilter.Business {
     }
 
     public void Dispose() {
-      _filteredTweet.Clear();
+      if (_filteredTweet != null) { _filteredTweet.Clear(); }
       GC.Collect();
     }
   }

@@ -27,12 +27,9 @@ namespace UserInterface {
     private string _fullFilePath;
     private string _safeFileName;
     private int _minimumFollower;
-    private ButtonManager _btnManager;
     private DataGridInformation _dataGrid;
     private DataGridManager _progressBars;
     private List<Tweet> _tweets;
-    ITweetManager _twtManager;
-    ITweetFilterManager _filterManager;
 
     public MainWindow() {
       _progressBars = new DataGridManager();
@@ -45,34 +42,38 @@ namespace UserInterface {
     }
 
     private void Button_Start(object sender, RoutedEventArgs e) {
-      InitializeManagers();
+
+      ITweetManager twtManager = new TweetManager();
+      ITweetFilterManager filterManager = new TweetFilterManager(twtManager);
+      IButtonManager btnManager = new ButtonManager(twtManager, filterManager);
+
       ParseMinimalFollowers();
       _dataGrid = CreateDataGrid();
       AppendDataGrids(_dataGrid);
 
-      Thread startClicked = new Thread(() => StartFilterByNumOfFollower(_dataGrid));
+      Thread startClicked = new Thread(() => StartFilterByNumOfFollower(twtManager, filterManager, btnManager, _dataGrid));
       startClicked.Start();
 
-      Thread progress = new Thread(() => UpdateProgress(_dataGrid));
+      Thread progress = new Thread(() => UpdateProgress(twtManager,filterManager,_dataGrid));
       progress.Start();
     }
 
-    private void StartFilterByNumOfFollower(DataGridInformation progress) {
-      _tweets = _btnManager.FilterTweetByFollower(_fullFilePath, _minimumFollower);
+    private void StartFilterByNumOfFollower(ITweetManager twtManager, ITweetFilterManager filterManager, IButtonManager btnManager, DataGridInformation progress) {
+      _tweets = btnManager.FilterTweetByFollower(_fullFilePath, _minimumFollower);
       if (_tweets.Count == 0) {
-        progress.Result = "Error";
+        progress.Logs = "Error";
       }
       else {
-        progress.Result = $"Success {_tweets.Count} tweets filtered";
+        progress.Logs = $"Success {_tweets.Count} tweets filtered";
       }
       progress.IsEnded = true;
       progress.Progress = 100;
-      CleanUpMemory();
+      CleanUpMemory(twtManager, filterManager);
     }
 
-    private void UpdateProgress(DataGridInformation progress) {
+    private void UpdateProgress(ITweetManager twtManager, ITweetFilterManager filterManager, DataGridInformation progress) {
       while (!progress.IsEnded) {
-        progress.Progress = _twtManager.ProgressPercentage + _filterManager.ProgressPercentage;
+        progress.Progress = twtManager.ProgressPercentage + filterManager.ProgressPercentage;
       }
     }
 
@@ -86,22 +87,17 @@ namespace UserInterface {
       }
     }
 
-    private void InitializeManagers() {
-      _twtManager = new TweetManager();
-      _filterManager = new TweetFilterManager(_twtManager);
-      _btnManager = new ButtonManager(_twtManager, _filterManager);
-    }
 
     private void ParseMinimalFollowers() {
       _minimumFollower = int.TryParse(
         minimumFollower.Text, out _minimumFollower) ? _minimumFollower : 0;
     }
 
-    private DataGridInformation CreateDataGrid(){
+    private DataGridInformation CreateDataGrid() {
       DataGridInformation dataGrid = new DataGridInformation() {
         FileName = _safeFileName,
         Progress = 0,
-        Result = "Started...",
+        Logs = "Started...",
         IsEnded = false
       };
       return dataGrid;
@@ -112,9 +108,9 @@ namespace UserInterface {
       dgFileInfo.Items.Add(oneGrid);
     }
 
-    private void CleanUpMemory() {
-      _twtManager.Dispose();
-      _filterManager.Dispose();
+    private void CleanUpMemory(ITweetManager twtManager, ITweetFilterManager filterManager) {
+      twtManager.Dispose();
+      filterManager.Dispose();
     }
 
     private void dgFileInfo_SelectionChanged(object sender, SelectionChangedEventArgs e) {

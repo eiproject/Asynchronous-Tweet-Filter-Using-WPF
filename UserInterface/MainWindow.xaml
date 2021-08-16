@@ -32,7 +32,7 @@
             </DataTemplate>
           </DataGridTemplateColumn.CellTemplate>
         </DataGridTemplateColumn>
-        <DataGridTextColumn Header="Result" Binding="{Binding Path=Result}" MaxWidth="100" MinWidth="50" Width="100">
+        <DataGridTextColumn Header="Logs" Binding="{Binding Path=Logs}" MaxWidth="100" MinWidth="50" Width="100">
           <DataGridTextColumn.ElementStyle>
             <Style>
               <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
