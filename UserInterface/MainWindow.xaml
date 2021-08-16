@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:UserInterface"
         mc:Ignorable="d"
-        Title="Twitter Filter" Height="363.742" Width="505.951">
+        Title="Twitter Filter" Height="364.742" Width="517.951">
   <Grid>
     <Button Content="Choose CSV" HorizontalAlignment="Left" Margin="184,69,0,0" VerticalAlignment="Top" Width="75" Click="Button_ChooseCSV" Background="#FFF1F1F1" BorderBrush="#FFF1F1F1"/>
     <Button Content="Start" HorizontalAlignment="Left" Margin="57,138,0,0" VerticalAlignment="Top" Width="72" Foreground="White" Background="#FF1EBD17" BorderBrush="#FF1EBD17" Click="Button_Start" RenderTransformOrigin="0.832,0.472"/>
@@ -15,7 +15,7 @@
     <TextBox Name="minimumFollower" HorizontalAlignment="Left" Height="23" Margin="184,95,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="75" BorderBrush="Gainsboro"/>
     <TextBox Name="filePath" HorizontalAlignment="Left" Height="48" Margin="267,70,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="199" BorderBrush="Gainsboro" Background="{x:Null}"/>
 
-    <DataGrid Name="dgFileInfo" AutoGenerateColumns="False" CanUserAddRows="False" ItemsSource="{Binding}" Margin="184,140,32,37">
+    <DataGrid Name="dgFileInfo" AutoGenerateColumns="False" CanUserAddRows="False" ItemsSource="{Binding}" Margin="184,140,44,37">
       <DataGrid.Columns>
         <DataGridTextColumn Header="FileName"  Binding="{Binding Path=FileName}"/>
         <DataGridTemplateColumn Header="Progress" Width="100">

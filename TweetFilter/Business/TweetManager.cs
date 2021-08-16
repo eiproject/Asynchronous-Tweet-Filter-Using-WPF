@@ -15,8 +15,6 @@ namespace TweetFilter.Business {
     private List<Tweet> _tweets;
     private StreamReader _csvStreamer;
     protected CsvReader _csvReader;
-    private int _numberOfColumn = 0;
-    private bool _isDisposable;
 
     public TweetManager() { }
 
@@ -30,12 +28,9 @@ namespace TweetFilter.Business {
     }
 
     private void Dispose(bool disposing) {
-      if (_isDisposable) {
-        if (disposing) {
-          if (_tweets != null) { _tweets.Clear(); }
-          GC.Collect();
-        }
-        _isDisposable = false;
+      if (disposing) {
+        if (_tweets != null) { _tweets.Clear(); }
+        GC.Collect();
       }
     }
 
@@ -49,17 +44,16 @@ namespace TweetFilter.Business {
           string[] queryArray = DynamicObjectToArray(obj);
           AddTweetToTweets(queryArray);
         }
-        _isDisposable = true;
       }
-      catch (ArgumentException argumentError){
+      catch (ArgumentException argumentError) {
         Console.WriteLine(argumentError.Message);
       }
     }
 
     private string[] DynamicObjectToArray(dynamic obj) {
       string[] queryArray = new string[] {
-        obj.ID, obj.lang, obj.Date, obj.Source, obj.len, obj.Tweet, 
-        obj.Likes, obj.RTs, obj.Hashtags, obj.UserMentionNames, 
+        obj.ID, obj.lang, obj.Date, obj.Source, obj.len, obj.Tweet,
+        obj.Likes, obj.RTs, obj.Hashtags, obj.UserMentionNames,
         obj.UserMentionID, obj.Name, obj.Place, obj.Followers, obj.Friends
       };
       return queryArray;

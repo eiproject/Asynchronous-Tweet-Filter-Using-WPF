@@ -6,10 +6,11 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace UserInterface {
-  public class FilterProgress : INotifyPropertyChanged {
+  public class DataGridInformation : INotifyPropertyChanged {
     private string _fileName;
     private int _progress;
     private string _result;
+    private bool _isEnded;
 
     public string FileName {
       get { return _fileName; }
@@ -32,6 +33,13 @@ namespace UserInterface {
       set {
         _result = value;
         OnPropertyChanged("Result");
+      }
+    }
+
+    public bool IsEnded {
+      get { return _isEnded; }
+      set {
+        _isEnded = value;
       }
     }
 

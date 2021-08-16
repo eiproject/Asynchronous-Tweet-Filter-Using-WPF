@@ -15,6 +15,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using TweetFilter.Business;
 using TweetFilter.Models;
 using UserInterface.Business;
 
@@ -27,17 +28,52 @@ namespace UserInterface {
     private string _safeFileName;
     private int _minimumFollower;
     private ButtonManager _btnManager;
-    private FilterProgressGroup _progress;
+    private DataGridManager _progressBars;
     private List<Tweet> _tweets;
+    ITweetManager _twtManager;
+    ITweetFilterManager _filterManager;
 
     public MainWindow() {
-      _btnManager = new ButtonManager();
-      _progress = new FilterProgressGroup();
+      _progressBars = new DataGridManager();
 
       InitializeComponent();
     }
 
     private void Button_ChooseCSV(object sender, RoutedEventArgs e) {
+      OpenFileDialog();
+    }
+
+    private void Button_Start(object sender, RoutedEventArgs e) {
+      InitializeManagers();
+      ParseMinimalFollowers();
+      DataGridInformation dataGrid = CreateDataGrid();
+
+      Thread startClicked = new Thread(() => StartFilterByNumOfFollower(dataGrid));
+      startClicked.Start();
+
+      Thread progress = new Thread(() => UpdateProgress(dataGrid));
+      progress.Start();
+    }
+
+    private void StartFilterByNumOfFollower(DataGridInformation progress) {
+      _tweets = _btnManager.FilterTweetByFollower(_fullFilePath, _minimumFollower);
+      if (_tweets.Count == 0) {
+        progress.Result = "Error";
+      }
+      else {
+        progress.Result = "Success";
+      }
+      progress.IsEnded = true;
+      progress.Progress = 100;
+    }
+
+    private void UpdateProgress(DataGridInformation progress) {
+      while (!progress.IsEnded) {
+        progress.Progress = (int)_filterManager.ProgressPercentage;
+      }
+    }
+
+    private void OpenFileDialog() {
       OpenFileDialog openFileDialog = new OpenFileDialog();
       openFileDialog.Filter = "CSV files (*.csv)|*.csv|All files (*.*)|*.*";
       if (openFileDialog.ShowDialog() == true) {
@@ -47,46 +83,30 @@ namespace UserInterface {
       }
     }
 
-    private void Button_Start(object sender, RoutedEventArgs e) {
-      // dgFileInfo.Items.Add(_progress.ProgressGroup);
-      Console.WriteLine(_progress.ProgressGroup.ToList().Count);
+    private void InitializeManagers() {
+      _twtManager = new TweetManager();
+      _filterManager = new TweetFilterManager(_twtManager);
+      _btnManager = new ButtonManager(_twtManager, _filterManager);
+    }
 
+    private void ParseMinimalFollowers() {
       _minimumFollower = int.TryParse(
         minimumFollower.Text, out _minimumFollower) ? _minimumFollower : 0;
+    }
 
-      FilterProgress newProgress = new FilterProgress() {
+    private DataGridInformation CreateDataGrid(){
+      DataGridInformation process = new DataGridInformation() {
         FileName = _safeFileName,
         Progress = 0,
-        Result = "On Progress..."
+        Result = "Started...",
+        IsEnded = false
       };
-      _progress.Add(newProgress);
-      dgFileInfo.Items.Add(newProgress);
-
-      Thread startClicked = new Thread(() => FilterByFollower(newProgress));
-      startClicked.Start();
-
-      Thread progress = new Thread(() => UpdateProgress(newProgress));
-      progress.Start();
+      return null;
     }
 
-    private void FilterByFollower(FilterProgress progress) {
-      _tweets = _btnManager.FilterTweetByFollower(_fullFilePath, _minimumFollower);
-      if (_tweets.Count == 0) {
-        progress.Result = "Error";
-      }
-      else {
-        progress.Result = "Success";
-      }
-    }
-
-    private void UpdateProgress(FilterProgress progress) {
-      for (int i = 0; i < 90; i++) {
-        progress.Progress += i;
-        Thread.Sleep(100);
-      }
-    }
-    private void DataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e) {
-
+    private void AppendDataGrids(DataGridInformation oneGrid) {
+      _progressBars.AddProgressToGroup(oneGrid);
+      dgFileInfo.Items.Add(oneGrid);
     }
   }
 }
