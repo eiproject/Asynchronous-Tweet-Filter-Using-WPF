@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:UserInterface"
         mc:Ignorable="d"
-        Title="Twitter Filter" Height="364.742" Width="512.951">
+        Title="Twitter Filter" Height="364" Width="512">
   <Grid>
     <Button Content="Choose CSV" HorizontalAlignment="Left" Margin="184,69,0,0" VerticalAlignment="Top" Width="75" Click="Button_ChooseCSV" Background="#FFF1F1F1" BorderBrush="#FFF1F1F1"/>
     <Button Content="Start" HorizontalAlignment="Left" Margin="47,277,0,0" VerticalAlignment="Top" Width="72" Foreground="White" Background="#FF1EBD17" BorderBrush="#FF1EBD17" Click="Button_Start" RenderTransformOrigin="0.832,0.472"/>
