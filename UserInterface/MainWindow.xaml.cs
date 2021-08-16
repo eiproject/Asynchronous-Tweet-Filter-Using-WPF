@@ -42,15 +42,17 @@ namespace UserInterface {
     }
 
     private void Button_Start(object sender, RoutedEventArgs e) {
-      StartingProcess();
-    }
-
-    private void StartingProcess() {
       // one instance each click
       ITweetManager twtManager = new TweetManager();
       ITweetFilterManager filterManager = new TweetFilterManager(twtManager);
       IButtonManager btnManager = new ButtonManager(twtManager, filterManager);
+      using (twtManager)
+      using (filterManager) {
+        StartingProcess(twtManager, filterManager, btnManager);
+      }
+    }
 
+    private void StartingProcess(ITweetManager twtManager, ITweetFilterManager filterManager, IButtonManager btnManager) {
       ParseMinimalFollowers();
       _dataGrid = CreateDataGrid();
       AppendDataGrids(_dataGrid);
@@ -66,14 +68,14 @@ namespace UserInterface {
       using (twtManager)
       using (filterManager) {
         _tweets = btnManager.FilterTweetByFollower(_fullFilePath, _minimumFollower);
-        if (_tweets.Count == 0) {
-          progress.Logs = "Error";
-        }
-        else {
-          progress.Logs = $"Success {_tweets.Count} tweets filtered";
-        }
-        progress.IsEnded = true;
-        progress.Progress = 100;
+      if (_tweets.Count == 0) {
+        progress.Logs = "Error";
+      }
+      else {
+        progress.Logs = $"Success {_tweets.Count} tweets filtered";
+      }
+      progress.IsEnded = true;
+      progress.Progress = 100;
       }
     }
 
