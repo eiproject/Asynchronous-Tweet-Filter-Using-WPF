@@ -6,5 +6,6 @@ namespace TweetFilter.Business {
     List<Tweet> GetTweets();
     void LoadTweetFromCSV(string filePath);
     void Dispose();
+    int ProgressPercentage { get; }
   }
 }

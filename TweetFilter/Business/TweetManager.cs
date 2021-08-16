@@ -15,6 +15,20 @@ namespace TweetFilter.Business {
     private List<Tweet> _tweets;
     private StreamReader _csvStreamer;
     protected CsvReader _csvReader;
+    private double _currentProgress = 0;
+    private int _progressPercentage = 0;
+    public int ProgressPercentage {
+      get {
+        if (_progressPercentage < 50) {
+          _progressPercentage = (int)(50 * _currentProgress);
+        }
+        else {
+          _progressPercentage = 50;
+        }
+        
+        return _progressPercentage;
+      }
+    }
 
     public TweetManager() { }
 
@@ -43,6 +57,7 @@ namespace TweetFilter.Business {
           dynamic obj = _csvReader.GetRecord<object>();
           string[] queryArray = DynamicObjectToArray(obj);
           AddTweetToTweets(queryArray);
+          _currentProgress += 0.000001;
         }
       }
       catch (ArgumentException argumentError) {

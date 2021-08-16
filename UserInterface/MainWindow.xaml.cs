@@ -28,6 +28,7 @@ namespace UserInterface {
     private string _safeFileName;
     private int _minimumFollower;
     private ButtonManager _btnManager;
+    private DataGridInformation _dataGrid;
     private DataGridManager _progressBars;
     private List<Tweet> _tweets;
     ITweetManager _twtManager;
@@ -46,12 +47,13 @@ namespace UserInterface {
     private void Button_Start(object sender, RoutedEventArgs e) {
       InitializeManagers();
       ParseMinimalFollowers();
-      DataGridInformation dataGrid = CreateDataGrid();
+      _dataGrid = CreateDataGrid();
+      AppendDataGrids(_dataGrid);
 
-      Thread startClicked = new Thread(() => StartFilterByNumOfFollower(dataGrid));
+      Thread startClicked = new Thread(() => StartFilterByNumOfFollower(_dataGrid));
       startClicked.Start();
 
-      Thread progress = new Thread(() => UpdateProgress(dataGrid));
+      Thread progress = new Thread(() => UpdateProgress(_dataGrid));
       progress.Start();
     }
 
@@ -61,15 +63,16 @@ namespace UserInterface {
         progress.Result = "Error";
       }
       else {
-        progress.Result = "Success";
+        progress.Result = $"Success {_tweets.Count} tweets filtered";
       }
       progress.IsEnded = true;
       progress.Progress = 100;
+      CleanUpMemory();
     }
 
     private void UpdateProgress(DataGridInformation progress) {
       while (!progress.IsEnded) {
-        progress.Progress = (int)_filterManager.ProgressPercentage;
+        progress.Progress = _twtManager.ProgressPercentage + _filterManager.ProgressPercentage;
       }
     }
 
@@ -95,18 +98,27 @@ namespace UserInterface {
     }
 
     private DataGridInformation CreateDataGrid(){
-      DataGridInformation process = new DataGridInformation() {
+      DataGridInformation dataGrid = new DataGridInformation() {
         FileName = _safeFileName,
         Progress = 0,
         Result = "Started...",
         IsEnded = false
       };
-      return null;
+      return dataGrid;
     }
 
     private void AppendDataGrids(DataGridInformation oneGrid) {
       _progressBars.AddProgressToGroup(oneGrid);
       dgFileInfo.Items.Add(oneGrid);
+    }
+
+    private void CleanUpMemory() {
+      _twtManager.Dispose();
+      _filterManager.Dispose();
+    }
+
+    private void dgFileInfo_SelectionChanged(object sender, SelectionChangedEventArgs e) {
+
     }
   }
 }
