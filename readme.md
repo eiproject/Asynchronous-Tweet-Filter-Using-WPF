@@ -16,3 +16,5 @@ This project is a training for using:
 ### Screenshoot
 
 ![alt text](https://github.com/eiproject/Asynchronous-Tweet-Filter-Using-WPF/blob/master/Screenshot/Screenshot%202021-08-16%20161501.png?raw=true)
+
+![alt text](https://github.com/eiproject/Asynchronous-Tweet-Filter-Using-WPF/blob/master/Screenshot/Screenshot%202021-08-16%20163558.png?raw=true)
