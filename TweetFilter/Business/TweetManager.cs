@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 using TweetFilter.Models;
 
 namespace TweetFilter.Business {
-  public class TweetManager : IDisposable, ITweetManager {
+  public class TweetManager : ITweetManager {
     private List<Tweet> _tweets;
     private StreamReader _csvStreamer;
     protected CsvReader _csvReader;
@@ -49,20 +49,20 @@ namespace TweetFilter.Business {
     }
 
     public void LoadTweetFromCSV(string filePath) {
-      try {
-        _csvStreamer = File.OpenText(filePath);
-        _csvReader = new CsvReader(_csvStreamer, new CultureInfo("en-US", false));
-        _tweets = new List<Tweet>();
-        while (_csvReader.Read()) {
-          dynamic obj = _csvReader.GetRecord<object>();
-          string[] queryArray = DynamicObjectToArray(obj);
-          AddTweetToTweets(queryArray);
-          _currentProgress += 0.000001;
+        try {
+          _csvStreamer = File.OpenText(filePath);
+          _csvReader = new CsvReader(_csvStreamer, new CultureInfo("en-US", false));
+          _tweets = new List<Tweet>();
+          while (_csvReader.Read()) {
+            dynamic obj = _csvReader.GetRecord<object>();
+            string[] queryArray = DynamicObjectToArray(obj);
+            AddTweetToTweets(queryArray);
+            _currentProgress += 0.000001;
+          }
         }
-      }
-      catch (ArgumentException argumentError) {
-        Console.WriteLine(argumentError.Message);
-      }
+        catch (ArgumentException argumentError) {
+          Console.WriteLine(argumentError.Message);
+        }
     }
 
     private string[] DynamicObjectToArray(dynamic obj) {

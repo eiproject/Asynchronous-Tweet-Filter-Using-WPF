@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using TweetFilter.Models;
 
 namespace TweetFilter.Business {
-  public class TweetFilterManager : IDisposable, ITweetFilterManager {
+  public class TweetFilterManager : ITweetFilterManager {
     private ITweetManager _tweetManager;
     private int _numOfTweet = 0;
     private int _currentProgress = 0;

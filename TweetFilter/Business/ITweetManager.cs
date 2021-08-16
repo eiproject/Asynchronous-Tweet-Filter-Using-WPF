@@ -1,11 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using TweetFilter.Models;
 
 namespace TweetFilter.Business {
-  public interface ITweetManager {
+  public interface ITweetManager : IDisposable {
     List<Tweet> GetTweets();
     void LoadTweetFromCSV(string filePath);
-    void Dispose();
+    // void Dispose();
     int ProgressPercentage { get; }
   }
 }
