@@ -6,7 +6,7 @@ namespace TweetFilter.Business {
   public interface ITweetManager : IDisposable {
     List<Tweet> GetTweets();
     void LoadTweetFromCSV(string filePath);
-    // void Dispose();
+    void WriteTweetToCSV(string filename, List<Tweet> tweet);
     int ProgressPercentage { get; }
   }
 }

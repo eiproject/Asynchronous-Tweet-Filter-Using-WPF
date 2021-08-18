@@ -37,17 +37,19 @@ namespace UserInterface.Business {
       _dataGrid = CreateDataGrid();
       AppendDataGrids(_dataGrid);
 
-      Thread startClicked = new Thread(() => StartFilterByNumOfFollower());
-      startClicked.Start();
+      Thread filter = new Thread(() => FilterTweetByFollower(_fullFilePath, _minimumFollower));
+      filter.Start();
 
-      Thread progress = new Thread(() => UpdateProgress());
-      progress.Start();
+      Thread update = new Thread(() => UpdateProgress());
+      update.Start();
     }
 
-    private void StartFilterByNumOfFollower() {
+    private void FilterTweetByFollower(string filePath, int minFollower) {
       using (_twtManager)
       using (_filterManager) {
-        _tweets = FilterTweetByFollower(_fullFilePath, _minimumFollower);
+        _twtManager.LoadTweetFromCSV(filePath);
+        _tweets = _filterManager.FilterByMinimumFollower(minFollower);
+        _twtManager.WriteTweetToCSV(ResultPathGenerator(filePath), _tweets);
         if (_tweets.Count == 0) {
           _dataGrid.Logs = "Error";
         }
@@ -59,10 +61,10 @@ namespace UserInterface.Business {
       }
     }
 
-    private List<Tweet> FilterTweetByFollower(string filePath, int minFollower) {
-      _twtManager.LoadTweetFromCSV(filePath);
-      List<Tweet> result = _filterManager.FilterByMinimumFollower(minFollower);
-      Console.WriteLine($"Result:  { result.Count} tweets.");
+    private string ResultPathGenerator(string path) {
+      string[] splitted = path.Split('.');
+      splitted[splitted.Length - 2] += $"_result_{ _minimumFollower }";
+      string result = String.Join(".", splitted);
       return result;
     }
 
