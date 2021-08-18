@@ -37,25 +37,25 @@ namespace UserInterface.Business {
       _dataGrid = CreateDataGrid();
       AppendDataGrids(_dataGrid);
 
-      Thread startClicked = new Thread(() => StartFilterByNumOfFollower(_twtManager, _filterManager,  _dataGrid));
+      Thread startClicked = new Thread(() => StartFilterByNumOfFollower());
       startClicked.Start();
 
-      Thread progress = new Thread(() => UpdateProgress(_twtManager, _filterManager, _dataGrid));
+      Thread progress = new Thread(() => UpdateProgress());
       progress.Start();
     }
 
-    private void StartFilterByNumOfFollower(ITweetManager twtManager, ITweetFilterManager filterManager,  DataGridInformation progress) {
-      using (twtManager)
-      using (filterManager) {
+    private void StartFilterByNumOfFollower() {
+      using (_twtManager)
+      using (_filterManager) {
         _tweets = FilterTweetByFollower(_fullFilePath, _minimumFollower);
         if (_tweets.Count == 0) {
-          progress.Logs = "Error";
+          _dataGrid.Logs = "Error";
         }
         else {
-          progress.Logs = $"Success {_tweets.Count} tweets filtered";
+          _dataGrid.Logs = $"Success {_tweets.Count} tweets filtered";
         }
-        progress.IsEnded = true;
-        progress.Progress = 100;
+        _dataGrid.IsEnded = true;
+        _dataGrid.Progress = 100;
       }
     }
 
@@ -66,9 +66,9 @@ namespace UserInterface.Business {
       return result;
     }
 
-    private void UpdateProgress(ITweetManager twtManager, ITweetFilterManager filterManager, DataGridInformation progress) {
-      while (!progress.IsEnded) {
-        progress.Progress = twtManager.ProgressPercentage + filterManager.ProgressPercentage;
+    private void UpdateProgress() {
+      while (!_dataGrid.IsEnded) {
+        _dataGrid.Progress = _twtManager.ProgressPercentage + _filterManager.ProgressPercentage;
       }
     }
 

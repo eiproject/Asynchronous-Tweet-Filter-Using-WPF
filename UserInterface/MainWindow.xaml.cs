@@ -41,9 +41,5 @@ namespace UserInterface {
     private void Button_Start(object sender, RoutedEventArgs e) {
       _btnManager.StartingProcess(minimumFollower, dgFileInfo);
     }
-
-    private void dgFileInfo_SelectionChanged(object sender, SelectionChangedEventArgs e) {
-
-    }
   }
 }
