@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 using TweetFilter.Models;
 
 namespace UserInterface.Business {
   interface IButtonManager {
-    List<Tweet> FilterTweetByFollower(string filePath, int minFollower);
+    string OpenFileDialog();
+    void StartingProcess(TextBox textBox, DataGrid dataGrid);
   }
 }

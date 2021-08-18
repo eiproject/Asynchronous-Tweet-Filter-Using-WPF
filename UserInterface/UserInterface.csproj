@@ -63,8 +63,8 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="DataGridInformation.cs" />
-    <Compile Include="DataGridManager.cs" />
+    <Compile Include="Manager\DataGridInformation.cs" />
+    <Compile Include="Manager\DataGridManager.cs" />
     <Compile Include="Manager\ButtonManager.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>

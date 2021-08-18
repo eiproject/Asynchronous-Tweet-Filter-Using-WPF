@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace UserInterface {
+namespace UserInterface.Business {
   class DataGridManager {
     private List<DataGridInformation> _dataGrids;
     public IEnumerable<DataGridInformation> GetDataGrids { get { return _dataGrids; } }

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace UserInterface {
+namespace UserInterface.Business {
   public class DataGridInformation : INotifyPropertyChanged {
     private string _fileName;
     private int _progress;

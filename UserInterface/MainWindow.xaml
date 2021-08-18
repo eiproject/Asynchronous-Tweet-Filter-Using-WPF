@@ -7,15 +7,19 @@
         mc:Ignorable="d"
         Title="Twitter Filter" Height="364" Width="512">
   <Grid>
-    <Button Content="Choose CSV" HorizontalAlignment="Left" Margin="184,69,0,0" VerticalAlignment="Top" Width="75" Click="Button_ChooseCSV" Background="#FFF1F1F1" BorderBrush="#FFF1F1F1"/>
-    <Button Content="Start" HorizontalAlignment="Left" Margin="47,277,0,0" VerticalAlignment="Top" Width="72" Foreground="White" Background="#FF1EBD17" BorderBrush="#FF1EBD17" Click="Button_Start" RenderTransformOrigin="0.832,0.472"/>
-    <Label Content="Select your Twitter CSV file" HorizontalAlignment="Left" Margin="10,66,0,0" VerticalAlignment="Top"/>
-    <Label Content="Twitter Filter Application" HorizontalAlignment="Left" Margin="128,10,0,0" VerticalAlignment="Top" RenderTransformOrigin="-10.237,-2.59" FontWeight="Bold" FontSize="16" Width="240" HorizontalContentAlignment="Center"/>
-    <Label Content="Minimum Follower" HorizontalAlignment="Left" Margin="10,92,0,0" VerticalAlignment="Top"/>
-    <TextBox Name="minimumFollower" HorizontalAlignment="Left" Height="23" Margin="184,95,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="75" BorderBrush="Gainsboro"/>
-    <TextBox Name="filePath" HorizontalAlignment="Left" Height="48" Margin="286,70,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="201" BorderBrush="Gainsboro" Background="{x:Null}"/>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="67*"/>
+      <ColumnDefinition Width="437*"/>
+    </Grid.ColumnDefinitions>
+    <Button Content="Choose CSV" HorizontalAlignment="Left" Margin="117,69,0,0" VerticalAlignment="Top" Width="75" Click="Button_ChooseCSV" Background="#FFF1F1F1" BorderBrush="#FFF1F1F1" Grid.Column="1"/>
+    <Button Content="Start" HorizontalAlignment="Left" Margin="47,277,0,0" VerticalAlignment="Top" Width="72" Foreground="White" Background="#FF1EBD17" BorderBrush="#FF1EBD17" Click="Button_Start" RenderTransformOrigin="0.832,0.472" Grid.ColumnSpan="2"/>
+    <Label Content="Select your Twitter CSV file" HorizontalAlignment="Left" Margin="10,66,0,0" VerticalAlignment="Top" Grid.ColumnSpan="2"/>
+    <Label Content="Twitter Filter Application" HorizontalAlignment="Left" Margin="61,10,0,0" VerticalAlignment="Top" RenderTransformOrigin="-10.237,-2.59" FontWeight="Bold" FontSize="16" Width="240" HorizontalContentAlignment="Center" Grid.Column="1"/>
+    <Label Content="Minimum Follower" HorizontalAlignment="Left" Margin="10,92,0,0" VerticalAlignment="Top" Grid.ColumnSpan="2"/>
+    <TextBox Name="minimumFollower" HorizontalAlignment="Left" Height="23" Margin="117,95,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="75" BorderBrush="Gainsboro" Grid.Column="1"/>
+    <TextBox Name="filePath" HorizontalAlignment="Left" Height="48" Margin="219,70,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="201" BorderBrush="Gainsboro" Background="{x:Null}" Grid.Column="1"/>
 
-    <DataGrid Name="dgFileInfo" AutoGenerateColumns="False" CanUserAddRows="False" ItemsSource="{Binding}" Margin="184,140,0,37" SelectionChanged="dgFileInfo_SelectionChanged" HorizontalAlignment="Left" Width="303">
+    <DataGrid Name="dgFileInfo" AutoGenerateColumns="False" CanUserAddRows="False" ItemsSource="{Binding}" Margin="117,140,0,37" SelectionChanged="dgFileInfo_SelectionChanged" HorizontalAlignment="Left" Width="303" Grid.Column="1">
       <DataGrid.Columns>
         <DataGridTextColumn Header="Filename"  Binding="{Binding Path=FileName}" MaxWidth="100" MinWidth="50" Width="100">
           <DataGridTextColumn.ElementStyle>
